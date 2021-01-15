@@ -35,3 +35,7 @@ foreach($id in $instanceIds){
 # sudo chown ubuntu:ubuntu /var/run/docker.sock
 # docker version
 ```
+### Steps: Login to AWS ECR from Ubuntu EC2 Server
+`sudo apt-get update -y`
+`sudo apt-get install -y awscli`
+`aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 554660509057.dkr.ecr.us-east-2.amazonaws.com`
