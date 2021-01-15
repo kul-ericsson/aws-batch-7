@@ -39,5 +39,12 @@ foreach($id in $instanceIds){
 ```
 # sudo apt-get update -y
 # sudo apt-get install -y awscli
+# Attach IAM Role to EC2 Server with ##AmazonEC2ContainerRegistryPowerUser## Policy
 # aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 554660509057.dkr.ecr.us-east-2.amazonaws.com
+```
+### Steps: Prepare and Push Images to AWS ECR
+```
+# create file Dockerfile
+# docker image build -t 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx:15012021-kul .
+# docker push 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx:15012021-kul
 ```
