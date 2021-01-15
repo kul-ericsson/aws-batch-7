@@ -10,9 +10,10 @@
 - aws ec2 run-instances --image-id ami-0a91cd140a1fc148a --instance-type t2.micro --count 1 --key-name kul-ericsson-thinknyx --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=thinknyx-kul}]' 'ResourceType=volume,Tags=[{Key=Name,Value=thinknyx-kul}]' # Create instance with Tags on Instance & Volume
 - aws ec2 describe-instances --filters "Name=tag:Name,Values=thinknyx-kul"
 ```
-### Powershell Sample to Fetch only Instance IDs
+### Powershell Sample to Fetch only Instance IDs & Public IP
 ```
 - (aws ec2 describe-instances --filters "Name=tag:Name,Values=thinknyx-kul" | ConvertFrom-Json).Reservations.Instances.InstanceId
+- (aws ec2 describe-instances --filters "Name=tag:Name,Values=thinknyx-kul" | ConvertFrom-Json).Reservations.Instances.PublicIpAddress
 ```
 ### Powershell Sample to Delete Instance using Ids
 ```
