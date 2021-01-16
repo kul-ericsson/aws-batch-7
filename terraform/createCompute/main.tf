@@ -60,7 +60,7 @@ resource "null_resource" "mount_vol" {
     connection {
       type = "ssh"
       user = "ubuntu"
-      private_key = file("c:/training/ericsson/aws/kul-ericsson-thinknyx.pem")
+      private_key = file(var.keyPath)
       host = aws_instance.ec2[each.value].public_ip
     }
     inline = [
