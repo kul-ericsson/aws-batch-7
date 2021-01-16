@@ -11,3 +11,10 @@ resource "aws_vpc" "vpc" {
       Name = "Kul"
   }
 }
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.vpc.vpc_id
+  tags = {
+    "Name" = "Kul"
+  }
+}
