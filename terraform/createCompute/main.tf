@@ -17,7 +17,7 @@ resource "aws_instance" "ec2" {
 resource "aws_security_group" "sg" {
   vpc_id = data.aws_vpc.vpc.id
   description = "Managed by Terraform"
-  name = "${var.tagName}"
+  name = var.tagName
   tags = {
     "Name" = var.tagName
   }
@@ -52,4 +52,23 @@ resource "aws_volume_attachment" "volAttach" {
   instance_id = aws_instance.ec2[each.value].id
   device_name = "/dev/sdf"
   skip_destroy = true
+}
+
+resource "null_resource" "mount_vol" {
+  for_each = data.aws_subnet_ids.public_sn_id.ids
+  provisioner "remote-exec" {
+    connection {
+      type = "ssh"
+      user = "ubuntu"
+      private_key = file("c:/training/ericsson/aws/kul-ericsson-thinknyx.pem")
+      host = aws_instance.ec2[each.value].public_ip
+    }
+    inline = [
+      "sudo mkdir /data",
+      "sudo mkfs -t ext4 /dev/xvdf",
+      "sudo mount /dev/xvdf /data",
+      "sudo chown ubuntu:ubuntu /data",
+      "echo '[INFO] Hi I am able to mount'  >> /data/demo.txt"
+    ]
+  }
 }

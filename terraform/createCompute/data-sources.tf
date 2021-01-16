@@ -8,3 +8,11 @@ data "aws_vpc" "vpc" {
 data "aws_subnet_ids" "sn_ids" {
   vpc_id = data.aws_vpc.vpc.id
 }
+
+data "aws_subnet_ids" "public_sn_id"{
+  vpc_id = data.aws_vpc.vpc.id
+  filter {
+    name = "tag:Name"
+    values = ["kul_public"]
+  }
+}
