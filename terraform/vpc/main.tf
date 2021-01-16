@@ -67,3 +67,11 @@ resource "aws_subnet" "sn_private_2" {
     "Name" = "${var.tagName}_private"
   }
 }
+
+# Resources to Create NAT Gateway
+resource "aws_eip" "eip" {
+  tags = {
+    "Name" = var.tagName
+  }
+}
+
