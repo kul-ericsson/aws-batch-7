@@ -49,3 +49,21 @@ resource "aws_route_table_association" "igw_rta" {
   subnet_id = aws_subnet.sn_public.id
   route_table_id = aws_route_table.igw_rt.id
 }
+
+resource "aws_subnet" "sn_private_1" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = "10.10.20.0/24"
+  availability_zone = "us-east-2b"
+  tags = {
+    "Name" = "${var.tagName}_private"
+  }
+}
+
+resource "aws_subnet" "sn_private_2" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block = "10.10.30.0/24"
+  availability_zone = "us-east-2c"
+  tags = {
+    "Name" = "${var.tagName}_private"
+  }
+}
