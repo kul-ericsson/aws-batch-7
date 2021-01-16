@@ -36,3 +36,20 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_ebs_volume" "ebs" {
+  for_each = data.aws_subnet_ids.sn_ids.ids
+  size = 10
+  availability_zone = aws_instance.ec2[each.value].availability_zone
+  tags = {
+    "Name" = var.tagName
+  }
+}
+
+resource "aws_volume_attachment" "volAttach" {
+  for_each = data.aws_subnet_ids.sn_ids.ids
+  volume_id = aws_ebs_volume.ebs[each.value].id
+  instance_id = aws_instance.ec2[each.value].id
+  device_name = "/dev/sdf"
+  skip_destroy = true
+}

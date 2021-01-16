@@ -14,3 +14,8 @@ output "ec2_public_ips" {
       for id in (data.aws_subnet_ids.sn_ids.ids) : id => aws_instance.ec2[id].public_ip
   }
 }
+output "ebs_ids" {
+  value = {
+      for id in (data.aws_subnet_ids.sn_ids.ids) : id => aws_ebs_volume.ebs[id].id
+  }
+}
