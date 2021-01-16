@@ -3,8 +3,8 @@ provider "aws" {
 }
 
 variable "tagName" {
-  Description = "Type your Name to be used as TAGNAME for resources"
-  type = String
+  description = "Type your Name to be used as TAGNAME for resources"
+  type = string
 }
 
 resource "aws_vpc" "vpc" {
@@ -18,18 +18,18 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.vpc.vpc_id
+  vpc_id = aws_vpc.vpc.id
   tags = {
     "Name" = var.tagName
   }
 }
 
 resource "aws_route_table" "igw_rt" {
-  vpc_id = aws_vpc.vpc.vpc_id
+  vpc_id = aws_vpc.vpc.id
   tags = {
     "Name" = "${var.tagName}_igw"
   }
-  route = {
+  route {
       cidr_block = "0.0.0.0/0"
       gateway_id = aws_internet_gateway.igw.id
   }
