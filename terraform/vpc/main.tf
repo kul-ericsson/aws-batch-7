@@ -35,7 +35,7 @@ resource "aws_route_table" "igw_rt" {
   }
 }
 
-resource "aws_subnet" "sn-public" {
+resource "aws_subnet" "sn_public" {
   vpc_id = aws_vpc.vpc.id
   cidr_block = "10.10.10.0/24"
   availability_zone = "us-east-2a"
@@ -43,4 +43,9 @@ resource "aws_subnet" "sn-public" {
   tags = {
     "Name" = "${var.tagName}_public"
   }
+}
+
+resource "aws_route_table_association" "igw_rta" {
+  subnet_id = aws_subnet.sn_public.id
+  route_table_id = aws_route_table.igw_rt.id
 }
