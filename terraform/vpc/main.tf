@@ -68,7 +68,7 @@ resource "aws_subnet" "sn_private_2" {
   }
 }
 
-# Resources to Create NAT Gateway
+# Resources to Create NAT Gateway & Setup Route for Private Subnets & NAT
 resource "aws_eip" "eip" {
   tags = {
     "Name" = var.tagName
@@ -83,3 +83,13 @@ resource "aws_nat_gateway" "natgw" {
   }
 }
 
+resource "aws_route_table" "natgw_rt" {
+  vpc_id = aws_vpc.vpc.id
+  tags = {
+    "Name" = "${var.tagName}_natgw"
+  }
+  route {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_nat_gateway.natgw.id
+  }
+}
