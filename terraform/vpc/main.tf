@@ -23,3 +23,10 @@ resource "aws_internet_gateway" "igw" {
     "Name" = var.tagName
   }
 }
+
+resource "aws_route_table" "igw_rt" {
+  vpc_id = aws_vpc.vpc.vpc_id
+  tags = {
+    "Name" = "${var.tagName}_igw"
+  }
+}
