@@ -16,3 +16,16 @@ data "aws_subnet_ids" "public_sn_id"{
     values = ["kul_public"]
   }
 }
+
+data "aws_subnet" "public" {
+  vpc_id = data.aws_vpc.vpc.id
+  availability_zone = "us-east-2a"
+}
+data "aws_subnet" "private_1" {
+  vpc_id = data.aws_vpc.vpc.id
+  availability_zone = "us-east-2b"
+}
+data "aws_subnet" "private_2" {
+  vpc_id = data.aws_vpc.vpc.id
+  availability_zone = "us-east-2c"
+}

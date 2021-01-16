@@ -28,6 +28,13 @@ resource "aws_security_group" "sg" {
     to_port = 22
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    description = "MYSQL Port"
+    protocol = "tcp"
+    from_port = 3306
+    to_port = 3306
+    cidr_blocks = ["10.10.0.0/16"]
+  }
   egress {
     description = "Outbound Access"
     protocol = "-1"
@@ -71,4 +78,24 @@ resource "null_resource" "mount_vol" {
       "echo '[INFO] Hi I am able to mount'  >> /data/demo.txt"
     ]
   }
+}
+
+resource "aws_db_subnet_group" "db_sg" {
+  name = var.tagName
+  subnet_ids = [ data.aws_subnet.public.id, data.aws_subnet.private_1.id, data.aws_subnet.private_2.id ]
+}
+
+resource "aws_db_instance" "rds" {
+  engine = "mysql"
+  engine_version = "8.0.20"
+  instance_class = "db.t2.micro"
+  identifier = var.tagName
+  storage_type = "gp2"
+  allocated_storage = 10
+  db_subnet_group_name = aws_db_subnet_group.db_sg.id
+  vpc_security_group_ids = [ aws_security_group.sg.id ]
+  name = var.tagName
+  username = "admin"
+  password = "admin123"
+  skip_final_snapshot = true
 }
