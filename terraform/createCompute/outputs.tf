@@ -19,3 +19,6 @@ output "ebs_ids" {
       for id in (data.aws_subnet_ids.sn_ids.ids) : id => aws_ebs_volume.ebs[id].id
   }
 }
+output "rds_connect_command" {
+  value = "mysql -h ${aws_db_instance.rds.address} -u ${aws_db_instance.rds.username} -p"
+}
