@@ -29,4 +29,8 @@ resource "aws_route_table" "igw_rt" {
   tags = {
     "Name" = "${var.tagName}_igw"
   }
+  route = {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.igw.id
+  }
 }
