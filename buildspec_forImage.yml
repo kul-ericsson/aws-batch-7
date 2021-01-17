@@ -1,0 +1,12 @@
+version: 0.2
+phases: 
+  pre_build: 
+    commands: 
+      - aws --version
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 554660509057.dkr.ecr.us-east-2.amazonaws.com
+  build: 
+    commands: 
+      - docker image build -t 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx-build-image:latest -f BuildImage .
+  post_build: 
+    commands: 
+      - docker push 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx-build-image:latest

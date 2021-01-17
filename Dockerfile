@@ -1,4 +1,2 @@
-FROM ubuntu:latest
-RUN apt-get update -y
-RUN export DEBIAN_FRONTEND=noninteractive && apt-get install -y apache2
-RUN echo "[INFO] Hi This is Prepared by Kul" >> /var/www/html/kul.html
+FROM kulbhushanmayer/tomcat:8.5.61
+COPY target/LiquorShop.war /opt/app/apache-tomcat-8.5.61/webapps/liquorshop.war

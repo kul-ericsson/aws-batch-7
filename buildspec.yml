@@ -1,0 +1,22 @@
+version: 0.2
+phases: 
+  install: 
+    commands: 
+      - apt-get update -y
+      - apt-get install -y maven
+      - export DEBIAN_FRONTEND=noninteractive && apt-get install -y awscli
+  pre_build: 
+    commands: 
+      - aws --version
+      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 554660509057.dkr.ecr.us-east-2.amazonaws.com
+  build: 
+    commands: 
+      - mvn clean package
+  post_build: 
+    commands: 
+      - docker image build -t thinknyx:app-1.0 .
+      - docker tag thinknyx:app-1.0 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx:app-1.0
+      - docker push 554660509057.dkr.ecr.us-east-2.amazonaws.com/thinknyx:app-1.0
+artifacts: 
+  files: 
+    - target/LiquorShop.war
